@@ -22,9 +22,9 @@ router.post("/", authorize, validateCategoryBody, createCategory);
 router.get("/", authorize, getCategories);
 
 //Update
-router.patch("/", authorize, validateCategoryBody, updateCategory);
+router.patch("/:id", authorize, validateCategoryBody, updateCategory);
 
 //Delete
-router.delete(":name", authorize, validateId, deleteCategory);
+router.delete("/:id", authorize, validateId, deleteCategory);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const Expenses = new mongoose.Schema(
   {
@@ -8,8 +9,7 @@ const Expenses = new mongoose.Schema(
       required: true,
     },
     category: {
-      type: Schema.Types.ObjectId,
-      ref: "Category",
+      type: String,
       required: true,
     },
     amount: {

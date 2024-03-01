@@ -3,7 +3,7 @@ const validator = require("validator");
 
 const validateId = celebrate({
     params: Joi.object().keys({
-      name: Joi.string().required(),
+      id: Joi.string().required(),
     }),
   });
   
@@ -41,26 +41,35 @@ const validateId = celebrate({
 
   const validateExpenseBody = celebrate({
     body: Joi.object().keys({
-        amount: Joi.number().required.messages({
+        category: Joi.any().required().messages({
+          "string.empty": 'the "category" id is empty'
+        }),
+        amount: Joi.number().required().min(0).messages({
             "number.empty": 'The "amount" field must be filled in',
             "number.base": 'The "amount" field must be a number',
         }),
-        title: Joi.string().required.min(4).max(15).messages({
+        title: Joi.string().required().min(4).max(15).messages({
             "string.min": 'The minimum length of the "title" field is 4',
             "string.max": 'The maximum length of the "title" field is 15',
             "string.empty": 'The "title" field must be filled in',
+        }),
+        description: Joi.string().required().max(40).messages({
+          "string.max": 'Description is exceeds 40 characters',
+        }),
+        date: Joi.date().required().messages({
+          "string.empty" : "the date field is empty",
         })
     })
   });
 
   const validateCategoryBody = celebrate({
     body: Joi.object().keys({
-        name: Joi.string().required.min(4).max(20).messages({
+        name: Joi.string().required().min(4).max(20).messages({
             "string.min": 'The minimum length of the "name" field is 4',
             "string.max": 'The maximum length of the "name" field is 20',
             "string.empty": 'The "name" field must be filled in',
         }),
-        budget: Joi.number().required.messages({
+        budget: Joi.number().required().messages({
             "number.empty": 'The "budget" field must be filled in',
             "number.base": 'The "budget" field must be a number',
         })

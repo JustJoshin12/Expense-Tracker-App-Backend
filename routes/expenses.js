@@ -19,10 +19,10 @@ router.post("/", authorize, validateExpenseBody, createExpense);
 router.get("/", authorize, getAllExpenses);
 
 //Update
-router.patch("/", authorize, validateExpenseBody, updateExpense);
+router.patch("/:id", authorize, validateExpenseBody, updateExpense);
 
 //Delete 
-router.delete("/:name", authorize, validateId, deleteExpense);
+router.delete("/:id", authorize, validateId, deleteExpense);
 
 
 module.exports = router;

@@ -49,7 +49,7 @@ const Users = new mongoose.Schema({
 
 });
 
-users.statics.findUserByCredentials = function findUserByCredentials(
+Users.statics.findUserByCredentials = function findUserByCredentials(
   email,
   password,
 ) {
@@ -70,4 +70,4 @@ users.statics.findUserByCredentials = function findUserByCredentials(
     });
 };
 
-module.exports = mongoose.model("users",Users)
+module.exports = mongoose.model("users", Users)
