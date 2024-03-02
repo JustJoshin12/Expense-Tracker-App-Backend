@@ -23,11 +23,11 @@ const getCategories = (req, res, next) => {
 
 // Update a category
 const updateCategory = (req, res, next) => {
-  const { name, budget } = req.body;
+  const { name, budget, threshold } = req.body;
 
   Category.findByIdAndUpdate(
     req.params.id,
-    { name, budget },
+    { name, budget, threshold },
     { new: true, runValidators: true }
   )
     .orFail(new NotFoundError("Category not found"))

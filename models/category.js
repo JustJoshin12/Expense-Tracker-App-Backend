@@ -1,18 +1,27 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-
-const Category = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    unique: true
+const Category = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    budget: {
+      type: Number,
+      required: false,
+    },
+    threshold: {
+      type: Number,
+      required: false,
+      min: 0,
+      max: 100, 
+      default: 90, 
+    },
   },
-  budget: {
-    type: Number,
-    required: false // Making the budget optional allows for categories without a set spending limit.
-  }
-}, {
-  timestamps: true // Adds createdAt and updatedAt timestamps automatically
-});
+  {
+    timestamps: true,
+  },
+);
 
-module.exports = mongoose.model("category", Category)
+module.exports = mongoose.model("category", Category);

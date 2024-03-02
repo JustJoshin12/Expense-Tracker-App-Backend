@@ -11,7 +11,7 @@ const { JWT_SECRET, NODE_ENV } = require("../utils/config");
 
 //create a new user
 const createUser = (req, res, next) => {
-  const { name, userName, password, email, avatar } = req.body;
+  const { name, userName, password, email, avatar, totalIncome } = req.body;
 
   if (!email) {
     return next(new BadRequestError("Please include an email"));
@@ -26,13 +26,14 @@ const createUser = (req, res, next) => {
 
       return bcrypt.hash(password, 10).then((hash) => {
         users
-          .create({ name, avatar, email, password: hash, userName })
+          .create({ name, avatar, email, password: hash, userName, totalIncome })
           .then((data) =>
             res.send({
               name: data.name,
               avatar: data.avatar,
               email: data.email,
               userName: data.userName,
+              totalIncome: data.totalIncome
             }),
           )
           .catch((err) => {
@@ -102,12 +103,12 @@ const getCurrentUser = (req, res, next) => {
 
 //update user profile
 const updateProfile = (req, res, next) => {
-  const { name, avatar, userName } = req.body;
+  const { name, avatar, userName, totalIncome } = req.body;
   const userId = req.user._id;
   users
     .findByIdAndUpdate(
       userId,
-      { name, avatar, userName },
+      { name, avatar, userName, totalIncome },
       {
         new: true,
         runValidators: true,
