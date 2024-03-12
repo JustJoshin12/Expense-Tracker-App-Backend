@@ -4,15 +4,15 @@ const NotFoundError = require("../errors/not-found-error");
 const { createUser, login } = require("../controllers/users");
 const { authorize } = require("../middleware/auth");
 const expenses = require("./expenses");
-const category = require("./catergory");
 const alert = require("./alert");
 const {validateLoginAuthentication, validateUserInfoBody} = require("../middleware/validation");
+const income = require("./income");
 
 
 router.use("/users", authorize, users);
 router.use("/expenses", expenses);
-router.use("/category", category);
 router.use("/alerts", alert)
+router.use("/income",income)
 
 router.post("/signin",validateLoginAuthentication, login);
 router.post("/signup", validateUserInfoBody, createUser);

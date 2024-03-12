@@ -1,24 +1,22 @@
 const Expenses = require("../models/expenses");
-const Category = require("../models/category");
-const Alert = require("../models/alert"); 
-const { checkAndGenerateAlerts } = require('../utils/checkAndGenerateAlerts'); 
 const NotFoundError = require("../errors/not-found-error");
 const BadRequestError = require("../errors/bad-request-error");
 
 // Create a new expense
 const createExpense = async (req, res, next) => {
   const { category, amount, title, description, date } = req.body;
-  if (!amount || !category) {
-    return next(new BadRequestError("Category and amount are required"));
+  if (!amount || !category || !title || !description || !date) {
+    return next(new BadRequestError("These fields are required"));
   }
 
-  try {
-    const expense = await Expenses.create({ userId: req.user._id, category, amount, title, description, date });
-    await checkAndGenerateAlerts(req.user._id, category); // Function to be defined
-    res.status(201).json(expense);
-  } catch (err) {
-    next(err);
-  }
+  Expenses.create({ category, amount, title, description, date })
+    .then((income) => res.status(201).json(income))
+    .catch((err) => {
+      if (err.name === "ValidationError") {
+        next(new BadRequestError("Bad Request"));
+      }
+      next(err);
+    });
 };
 
 // Get all expenses for a user
